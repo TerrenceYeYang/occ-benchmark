@@ -1,0 +1,61 @@
+name: Publish OCC Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: occ-benchmark-production
+  cancel-in-progress: false
+
+jobs:
+  validate-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Validate publication boundary
+        run: |
+          test -f site/index.html
+          test -f site/benchmark-results.json
+          node -e '
+            const fs = require("node:fs");
+            const r = JSON.parse(fs.readFileSync("site/benchmark-results.json", "utf8"));
+            if (r.environment.hostname) throw new Error("hostname is not publication-safe");
+            if (r.module.artifact_published !== false) throw new Error("module artifact publication blocked");
+            if (r.runner.accepts_algorithm_uploads !== false) throw new Error("algorithm upload must remain disabled");
+            for (const gate of ["core_throughput_status", "process_e2e_status", "ios_simulator_status"])
+              if (r.summary[gate] !== "passed") throw new Error(`${gate} failed`);
+          '
+
+      - name: Publish to Cloudflare Workers
+        id: cloudflare
+        if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+
+      - name: Publish fallback to Vercel
+        id: vercel
+        if: steps.cloudflare.outcome != 'success' && env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
+        run: npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN"
+
+      - name: Require one successful publisher
+        if: steps.cloudflare.outcome != 'success' && steps.vercel.outcome != 'success'
+        run: |
+          echo "Neither Cloudflare nor Vercel published successfully. Check scoped repository secrets."
+          exit 1

@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-02T05:45:35.011Z",
+  "source_revision": "workspace-without-git-metadata",
+  "module": {
+    "id": "occ-official-core",
+    "version": "0.2.0",
+    "distribution": "closed-source native artifact",
+    "abi_version": "0x00020000",
+    "artifact_sha256": "08578dcb9b53b3eaa4011d219d04459cc9f37640fc7632dff8b68ae3a5f04cf3",
+    "artifact_bytes": 780144,
+    "artifact_published": false
+  },
+  "runner": {
+    "id": "occ-benchmark-runner",
+    "version": "0.1.0",
+    "execution": "local-only",
+    "accepts_algorithm_uploads": false,
+    "runner_sha256": "58654147bc9d4111c8b58f7f4250889e099fa2f3caa09f1a2091f598451b80bc"
+  },
+  "environment": {
+    "platform": "Darwin 25.5.0",
+    "architecture": "arm64",
+    "cpu": "Apple M4",
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)"
+  },
+  "summary": {
+    "core_tests": 34,
+    "legacy_tests": 4,
+    "core_throughput_status": "passed",
+    "process_e2e_status": "passed",
+    "ios_simulator_status": "passed"
+  },
+  "core": {
+    "schema_version": 1,
+    "test": "core-throughput",
+    "status": "passed",
+    "object_mib": 2,
+    "symbol_bytes": 1024,
+    "channel_erasure_percent": 20,
+    "source_frames": 2048,
+    "transmitted_frames": 2565,
+    "delivered_frames": 2050,
+    "repair_rounds": 258,
+    "encode_seconds": 0.006457,
+    "decode_seconds": 0.030927,
+    "encode_mib_per_second": 309.72,
+    "decode_mib_per_second": 64.67
+  },
+  "integration": {
+    "process_e2e": {
+      "schema_version": 1,
+      "test": "independent-process-e2e",
+      "status": "passed",
+      "artifact_kind": "Complete",
+      "output_bytes": 262144,
+      "hash_matches_manifest": true,
+      "manifest_auth": "Authenticated",
+      "input_frames": 1199,
+      "accepted": 514,
+      "duplicates": 100,
+      "rejected_crc_or_protocol": 21,
+      "pre_manifest_erasures": 0
+    },
+    "ios_simulator": {
+      "status": "passed",
+      "test": "ios-simulator-c-abi",
+      "physical_device": false,
+      "platform": "iOS Simulator 26.5 arm64",
+      "schema_version": 1,
+      "transmitted_frames": 321,
+      "source_erasure_percent": 25,
+      "dropped_source_frames": 64,
+      "repair_frames": 64,
+      "hash_matches_manifest": true,
+      "artifact_kind": "Complete"
+    }
+  },
+  "platform_matrix": [
+    {
+      "platform": "macOS arm64",
+      "level": "native C/C++",
+      "status": "passed"
+    },
+    {
+      "platform": "iOS arm64",
+      "level": "Simulator C ABI",
+      "status": "passed"
+    },
+    {
+      "platform": "Windows x86_64",
+      "level": "Rust cross-target check",
+      "status": "passed"
+    },
+    {
+      "platform": "Android",
+      "level": "SDK/emulator",
+      "status": "not-run",
+      "reason": "Android SDK, ADB and emulator unavailable"
+    },
+    {
+      "platform": "Physical iPhone/Android",
+      "level": "optical device E2E",
+      "status": "not-run",
+      "reason": "No device/carrier adapter in this workspace"
+    }
+  ],
+  "evidence_levels": [
+    "unit/property tests",
+    "independent-process protocol E2E",
+    "native macOS C/C++ link and run",
+    "iOS Simulator C ABI integration"
+  ],
+  "excluded_from_claims": [
+    "camera recognition rate",
+    "screen-to-camera throughput",
+    "physical mobile device execution",
+    "Android runtime execution",
+    "Windows native link/run"
+  ]
+}
