@@ -1,15 +1,16 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-02T05:45:35.011Z",
+  "generated_at": "2026-08-03T01:46:38.112Z",
   "source_revision": "workspace-without-git-metadata",
   "module": {
     "id": "occ-official-core",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "distribution": "closed-source native artifact",
     "abi_version": "0x00020000",
-    "artifact_sha256": "08578dcb9b53b3eaa4011d219d04459cc9f37640fc7632dff8b68ae3a5f04cf3",
+    "artifact_sha256": "7a9f2d797930aca4297f64e241f71f306f0a7e1f3910c27a2d00d9823e073a5a",
     "artifact_bytes": 780144,
-    "artifact_published": false
+    "artifact_published": true,
+    "artifact_url": "https://github.com/TerrenceYeYang/occ-benchmark/releases/download/v1.0.0/occ-light-module-v1.0.0-macos-arm64.zip"
   },
   "runner": {
     "id": "occ-benchmark-runner",
@@ -42,10 +43,10 @@
     "transmitted_frames": 2565,
     "delivered_frames": 2050,
     "repair_rounds": 258,
-    "encode_seconds": 0.006457,
-    "decode_seconds": 0.030927,
-    "encode_mib_per_second": 309.72,
-    "decode_mib_per_second": 64.67
+    "encode_seconds": 0.016807,
+    "decode_seconds": 0.043999,
+    "encode_mib_per_second": 119,
+    "decode_mib_per_second": 45.46
   },
   "integration": {
     "process_e2e": {

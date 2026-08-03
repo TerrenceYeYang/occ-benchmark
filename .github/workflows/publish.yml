@@ -33,7 +33,9 @@ jobs:
             const fs = require("node:fs");
             const r = JSON.parse(fs.readFileSync("site/benchmark-results.json", "utf8"));
             if (r.environment.hostname) throw new Error("hostname is not publication-safe");
-            if (r.module.artifact_published !== false) throw new Error("module artifact publication blocked");
+            if (r.module.artifact_published !== true) throw new Error("module artifact publication is missing");
+            if (!r.module.artifact_url.startsWith("https://github.com/TerrenceYeYang/occ-benchmark/releases/download/"))
+              throw new Error("module artifact URL is outside the approved release repository");
             if (r.runner.accepts_algorithm_uploads !== false) throw new Error("algorithm upload must remain disabled");
             for (const gate of ["core_throughput_status", "process_e2e_status", "ios_simulator_status"])
               if (r.summary[gate] !== "passed") throw new Error(`${gate} failed`);
