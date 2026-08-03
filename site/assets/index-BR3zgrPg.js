@@ -1,4 +1,4 @@
-(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))t(r);new MutationObserver(r=>{for(const a of r)if(a.type==="childList")for(const o of a.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function i(r){const a={};return r.integrity&&(a.integrity=r.integrity),r.referrerPolicy&&(a.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?a.credentials="include":r.crossOrigin==="anonymous"?a.credentials="omit":a.credentials="same-origin",a}function t(r){if(r.ep)return;r.ep=!0;const a=i(r);fetch(r.href,a)}})();function n(e){if(typeof e!="object"||e===null)throw new Error("benchmark result is not an object");return e}function u(e){const s=n(e),i=n(s.summary),t=n(s.core),r=n(s.integration),a=n(r.process_e2e),o=n(r.ios_simulator),m=n(s.environment),c=n(s.module),l=n(s.runner);if(s.schema_version!==1||typeof s.generated_at!="string"||typeof s.source_revision!="string"||c.distribution!=="closed-source native artifact"||c.artifact_published!==!1||typeof c.artifact_sha256!="string"||!/^[a-f0-9]{64}$/u.test(c.artifact_sha256)||l.id!=="occ-benchmark-runner"||l.execution!=="local-only"||l.accepts_algorithm_uploads!==!1||typeof l.runner_sha256!="string"||i.core_throughput_status!=="passed"||i.process_e2e_status!=="passed"||i.ios_simulator_status!=="passed"||t.status!=="passed"||a.status!=="passed"||o.status!=="passed"||typeof t.encode_mib_per_second!="number"||typeof t.decode_mib_per_second!="number"||typeof a.hash_matches_manifest!="boolean"||typeof o.hash_matches_manifest!="boolean"||!Array.isArray(s.platform_matrix)||!Array.isArray(s.evidence_levels)||!Array.isArray(s.excluded_from_claims)||typeof m.cpu!="string")throw new Error("benchmark result schema is invalid or contains a failed required gate");return e}async function h(){const e=await fetch("./benchmark-results.json",{cache:"no-store"});if(!e.ok)throw new Error(`benchmark result HTTP ${e.status}`);return u(await e.json())}const d=document.querySelector("#app");if(!d)throw new Error("Missing #app");function p(e){return`<span class="matrix-status ${e}">${e==="passed"?"PASS":"NOT RUN"}</span>`}function b(e){const s=e.integration.ios_simulator,i=e.integration.process_e2e;return`
+(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))t(a);new MutationObserver(a=>{for(const r of a)if(r.type==="childList")for(const o of r.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function i(a){const r={};return a.integrity&&(r.integrity=a.integrity),a.referrerPolicy&&(r.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?r.credentials="include":a.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function t(a){if(a.ep)return;a.ep=!0;const r=i(a);fetch(a.href,r)}})();function n(e){if(typeof e!="object"||e===null)throw new Error("benchmark result is not an object");return e}function u(e){const s=n(e),i=n(s.summary),t=n(s.core),a=n(s.integration),r=n(a.process_e2e),o=n(a.ios_simulator),m=n(s.environment),c=n(s.module),l=n(s.runner);if(s.schema_version!==1||typeof s.generated_at!="string"||typeof s.source_revision!="string"||c.distribution!=="closed-source native artifact"||c.artifact_published!==!0||typeof c.artifact_url!="string"||!c.artifact_url.startsWith("https://github.com/TerrenceYeYang/occ-benchmark/releases/download/")||typeof c.artifact_sha256!="string"||!/^[a-f0-9]{64}$/u.test(c.artifact_sha256)||l.id!=="occ-benchmark-runner"||l.execution!=="local-only"||l.accepts_algorithm_uploads!==!1||typeof l.runner_sha256!="string"||i.core_throughput_status!=="passed"||i.process_e2e_status!=="passed"||i.ios_simulator_status!=="passed"||t.status!=="passed"||r.status!=="passed"||o.status!=="passed"||typeof t.encode_mib_per_second!="number"||typeof t.decode_mib_per_second!="number"||typeof r.hash_matches_manifest!="boolean"||typeof o.hash_matches_manifest!="boolean"||!Array.isArray(s.platform_matrix)||!Array.isArray(s.evidence_levels)||!Array.isArray(s.excluded_from_claims)||typeof m.cpu!="string")throw new Error("benchmark result schema is invalid or contains a failed required gate");return e}async function h(){const e=await fetch("./benchmark-results.json",{cache:"no-store"});if(!e.ok)throw new Error(`benchmark result HTTP ${e.status}`);return u(await e.json())}const d=document.querySelector("#app");if(!d)throw new Error("Missing #app");function p(e){return`<span class="matrix-status ${e}">${e==="passed"?"PASS":"NOT RUN"}</span>`}function b(e){const s=e.integration.ios_simulator,i=e.integration.process_e2e;return`
     <header class="bench-header">
       <div class="bench-brand"><span>OCC</span> CORE BENCHMARK</div>
       <nav class="bench-nav" aria-label="Benchmark resources">
@@ -29,15 +29,17 @@
         </article>
         <article class="launch-card core-placeholder">
           <p>CORE LIB DISTRIBUTION</p>
-          <h2>为应用开发者保留接口。</h2>
-          <p>计划提供可评估的 Core lib 分发版，让 ISV 与独立开发者在自己的产品、设备和隐私边界内完成集成与跑分。</p>
+          <h2>光传模块 v1.0 已开放二进制评估。</h2>
+          <p>ISV 与独立开发者可在自己的产品、设备和隐私边界内完成集成与跑分。当前包为 macOS arm64；其他平台按验证进度发布。</p>
           <ul>
             <li>稳定、版本化的 C ABI</li>
-            <li>Android / Windows / iOS / macOS / Linux</li>
+            <li>macOS arm64 — available</li>
+            <li>Android / Windows / iOS Device / Linux — coming soon</li>
             <li>固定测试向量与 Benchmark Runner</li>
             <li>算法模块无需上传</li>
           </ul>
-          <b>PREVIEW DISTRIBUTION — PLANNED</b>
+          <a class="download-button" href="${e.module.artifact_url}">DOWNLOAD v1.0 · macOS arm64</a>
+          <b>RELEASE TAG v1.0.0 · FUTURE TAGS TBD</b>
         </article>
       </section>
 
@@ -88,7 +90,7 @@
 
       <section class="bench-section evidence-boundary">
         <div><p class="bench-kicker">FOR DEVELOPERS</p><h2>Build the application around a reusable core.</h2><p class="public-copy">平台 UI、摄像头和设备适配由应用负责；确定性的协议、恢复、完整性和结果分类由 Core lib 负责。</p></div>
-        <div><p class="bench-kicker">NOT CLAIMED</p><ul>${e.excluded_from_claims.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+        <div><p class="bench-kicker">NOT CLAIMED</p><ul>${e.excluded_from_claims.map(a=>`<li>${a}</li>`).join("")}</ul></div>
       </section>
     </main>
     <footer class="bench-footer">OCC official module · simulator evidence is never presented as physical-device evidence</footer>

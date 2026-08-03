@@ -24,24 +24,36 @@ real optical run is captured.
 
 ## Core library distribution
 
-> **Preview distribution planned.** A Core lib evaluation package may be made
-> available to ISVs and independent developers.
+> **光传模块 v1.0 binary preview:**
+> [Download for macOS arm64](https://github.com/TerrenceYeYang/occ-benchmark/releases/download/v1.0.0/occ-light-module-v1.0.0-macos-arm64.zip)
 
-The planned package boundary includes a stable C ABI, native platform targets,
-fixed test vectors, the OCC Benchmark Runner, and provider interfaces for
-graphics, hashing, prediction, and hardware acceleration. Developers will run
-the module in their own environment; no algorithm upload is required.
+This distribution contains the native static and dynamic libraries, stable C
+and C++ headers, an artifact manifest, and SHA-256 checksums. It is intended for
+evaluation by ISVs and independent developers; the Core implementation source
+is not included.
+
+| Platform | Binary | Release tag |
+| --- | --- | --- |
+| macOS arm64 | [Download v1.0](https://github.com/TerrenceYeYang/occ-benchmark/releases/download/v1.0.0/occ-light-module-v1.0.0-macos-arm64.zip) | [`v1.0.0`](https://github.com/TerrenceYeYang/occ-benchmark/releases/tag/v1.0.0) |
+| Windows x86_64 | Coming soon | Tag TBD |
+| Android arm64-v8a | Coming soon | Tag TBD |
+| iOS Device arm64 | Coming soon | Tag TBD |
+| Linux x86_64 / arm64 | Coming soon | Tag TBD |
+
+The package boundary includes a stable C ABI, fixed test vectors, the OCC
+Benchmark Runner, and provider interfaces for graphics, hashing, prediction,
+and hardware acceleration. Developers run the module in their own environment;
+no algorithm upload is required.
 
 ## Published content
 
 The `site/` directory contains only compiled website assets, the generated
-`benchmark-results.json`, and the social preview image. It does not contain the
-OCC module binary, Rust/C/C++ source code, private fixtures, credentials, or a
-user algorithm upload endpoint.
+`benchmark-results.json`, and the social preview image. The binary is distributed
+separately as a GitHub Release asset; neither the website bundle nor this Git
+repository contains the OCC implementation source, private fixtures,
+credentials, or a user algorithm upload endpoint.
 
-The JSON result records the tested module version, C ABI, and binary SHA-256 so
-that a result stays bound to one local artifact. `artifact_published: false`
-means that artifact is deliberately absent from this public bundle.
-
-Distribution availability, licensing, support terms, and binary protection
-policy will be announced with the Core lib preview.
+The JSON result records the tested module version, C ABI, binary SHA-256, and
+release URL so that the score stays bound to the distributed native artifact.
+Licensing, production support, additional platform binaries, and binary
+protection policy remain separate release decisions.
