@@ -54,8 +54,16 @@ jobs:
         if: steps.cloudflare.outcome != 'success' && env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
         run: npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN"
 
+      - name: Report manual publishing mode
+        if: env.CLOUDFLARE_API_TOKEN == '' && (env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == '')
+        run: echo "Publication boundary passed; automatic publisher credentials are not configured."
+
       - name: Require one successful publisher
-        if: steps.cloudflare.outcome != 'success' && steps.vercel.outcome != 'success'
+        if: >-
+          (env.CLOUDFLARE_API_TOKEN != '' ||
+           (env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != '')) &&
+          steps.cloudflare.outcome != 'success' &&
+          steps.vercel.outcome != 'success'
         run: |
           echo "Neither Cloudflare nor Vercel published successfully. Check scoped repository secrets."
           exit 1
